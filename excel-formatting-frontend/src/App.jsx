@@ -42,6 +42,11 @@ export default function App() {
       const ws = workbook.Sheets[sheetName]
       const headerRow = XLSX.utils.sheet_to_json(ws, { header: 1 })[0]
       const csvRows = csvData.slice(1)
+      const today = new Date()
+      const day = String(today.getDate()).padStart(2, "0")
+      const month = String(today.getMonth() + 1).padStart(2, "0")
+      const year = today.getFullYear()
+      const fileName = `Supplier Product (${day}.${month}.${year}).xlsx`
 
       csvRows.forEach((csvRow, rowIndex) => {
         headerRow.forEach((xlsxCol, colIndex) => {
@@ -54,7 +59,7 @@ export default function App() {
         })
       })
 
-      XLSX.writeFile(workbook, "mapped_output.xlsx", { cellStyles: true })
+      XLSX.writeFile(workbook, fileName, { cellStyles: true })
     }
     reader.readAsArrayBuffer(xlsxFile)
   }
